@@ -1,0 +1,14 @@
+[Unit]
+Description=Post-reboot verification — checks services recovered, uncordons K3s
+After=network-online.target k3s.service docker.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/vps-ops-toolkit/scripts/post-reboot-verify.sh
+RemainAfterExit=no
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

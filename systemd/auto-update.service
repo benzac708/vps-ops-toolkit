@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily system update and upgrade
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+StandardOutput=journal
+StandardError=journal
+ExecStart=/bin/bash -c 'DEBIAN_FRONTEND=noninteractive apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -y -qq upgrade && DEBIAN_FRONTEND=noninteractive apt-get -y -qq autoremove'
