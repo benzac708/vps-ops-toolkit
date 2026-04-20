@@ -1,6 +1,6 @@
 # vps-ops-toolkit
 
-Public Linux VPS operations and maintenance scripts.
+Linux VPS operations and maintenance scripts.
 
 ## Included Scripts
 
