@@ -19,3 +19,9 @@ Linux VPS operations and maintenance scripts.
 ## Purpose
 
 This repo contains generic Bash-based host administration examples for Linux VPS operations. Adjust paths, users, and service names to match your environment before using them in production.
+
+## Verification
+
+- Shell syntax checked with `bash -n`
+- Static checks run with `shellcheck`
+- `vps-maintenance.sh` and `safe-reboot.sh` exercised with `--dry-run` on Ubuntu VPS with K3s
