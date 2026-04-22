@@ -157,8 +157,7 @@ upgradable=$(apt list --upgradable 2>/dev/null | grep -c "upgradable" || echo 0)
 log "Packages awaiting upgrade: ${upgradable}"
 
 # Check for autoremovable packages
-autoremove=$(apt list --installed 2>/dev/null | wc -l)
-autoremove_count=$(sudo apt autoremove --dry-run 2>/dev/null | grep -c "^Remv " || echo 0)
+autoremove_count=$(sudo apt autoremove --dry-run 2>/dev/null | awk '/^Remv / { count++ } END { print count + 0 }')
 if [ "$autoremove_count" -gt 0 ]; then
   log "[INFO] ${autoremove_count} packages can be autoremoved"
   run_or_preview "sudo apt autoremove -y"
@@ -167,13 +166,13 @@ fi
 # ─── Tool Version Check ─────────────────────────────────────────────
 log_section "TOOL VERSIONS"
 declare -A tools=(
-  [gh]="$(gh --version 2>/dev/null | head -1 || echo 'not installed')"
+  [gh]="$( { gh --version 2>/dev/null || true; } | head -1 )"
   [docker]="$(docker --version 2>/dev/null || echo 'not installed')"
   [helm]="$(helm version --short 2>/dev/null || echo 'not installed')"
-  [k3s]="$(k3s --version 2>/dev/null | head -1 || echo 'not installed')"
+  [k3s]="$( { k3s --version 2>/dev/null || true; } | head -1 )"
   [bun]="$(bun --version 2>/dev/null || echo 'not installed')"
   [node]="$(node --version 2>/dev/null || echo 'not installed')"
-  [terraform]="$(terraform --version 2>/dev/null | head -1 || echo 'not installed')"
+  [terraform]="$( { terraform --version 2>/dev/null || true; } | head -1 )"
   [git]="$(git --version 2>/dev/null || echo 'not installed')"
 )
 for tool in "${!tools[@]}"; do
